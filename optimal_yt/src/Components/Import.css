@@ -1,0 +1,44 @@
+.Home {
+    text-align: center;
+  width: auto;
+  }
+  
+  .Home-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .Home-header h2{
+    color:'white'
+  }
+
+  .Home-header #inp{
+    margin-top: 2%;
+  }
+
+  #error{
+    color:red;
+  }
+
+.savedVideos img{
+  display:inline-block;
+ justify-content: center;
+ width: 30%;
+}
+
+.savedText p{
+  display:inline-block;
+  justify-content: center;
+  margin-top:5%;
+  font-size: 30px;
+  color:white;
+}
+
+  .Home-header button{
+    justify-items: center;
+    justify-content: center;
+    justify-self: center;
+    margin:auto
+  }
