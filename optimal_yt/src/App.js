@@ -27,6 +27,7 @@ function App() {
     <Route path="/Home" element={<Home/>}/>
     <Route path="/Import" element={<Import/>} />
     <Route path="/" element={<Navigate replace to="/Home" />} />
+    <Route path="/Optimizer" element={<Navigate replace to = "/Home"/>}/>
   </Routes>
   </BrowserRouter>  
     </div>
