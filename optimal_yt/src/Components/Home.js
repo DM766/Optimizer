@@ -225,9 +225,9 @@ function AddPlaylist(){
         </Row>
         </Container>
         <div>
-        <button onClick={AddPlaylist}>Generate Playlist</button>
+        <button style={{whiteSpace:'noWrap'}} onClick={AddPlaylist}>Generate Playlist</button>
         <span>       </span>
-        <button onClick={ClearPlaylist}>Clear</button>
+        <button style={{whiteSpace:'noWrap'}} onClick={ClearPlaylist}>Clear</button>
         </div>
       </div>
     </div>
