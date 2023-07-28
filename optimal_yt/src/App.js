@@ -1,7 +1,7 @@
 import './App.css';
 import { Col, Row, Container, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import React, { useState } from 'react'
-import {BrowserRouter, Routes, Route, Link, Navigate, useNavigate} from "react-router-dom"
+import {HashRouter, Routes, Route, Link, Navigate, useNavigate} from "react-router-dom"
 import { Import } from './Components/Import';
 import Home from './Components/Home';
 
@@ -10,7 +10,7 @@ function App() {
   
   return (
     <div className="App">
-      <BrowserRouter>
+      <HashRouter>
       <Navbar bg="dark" expand="lg">
       <Container>
         <Navbar.Brand as={Link} to="/Home" style={{color:'white'}}>Optimizer</Navbar.Brand>
@@ -28,7 +28,7 @@ function App() {
     <Route path="/Import" element={<Import/>} />
     <Route path="/*" element={<Navigate to="/Home" />} />
   </Routes>
-  </BrowserRouter>  
+  </HashRouter>  
     </div>
   );
 }
