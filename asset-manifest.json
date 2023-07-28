@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Optimizer/static/css/main.28086aaa.css",
+    "main.js": "/Optimizer/static/js/main.7b492922.js",
+    "static/js/787.db2a295d.chunk.js": "/Optimizer/static/js/787.db2a295d.chunk.js",
+    "index.html": "/Optimizer/index.html",
+    "main.28086aaa.css.map": "/Optimizer/static/css/main.28086aaa.css.map",
+    "main.7b492922.js.map": "/Optimizer/static/js/main.7b492922.js.map",
+    "787.db2a295d.chunk.js.map": "/Optimizer/static/js/787.db2a295d.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.28086aaa.css",
+    "static/js/main.7b492922.js"
+  ]
+}
