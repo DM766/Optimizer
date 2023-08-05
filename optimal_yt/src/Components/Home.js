@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom';
 import YouTube from 'react-youtube'
 import { getDatabase, ref, get, child, set } from "firebase/database";
 import {FixedSizeList as List} from 'react-window'
+import app from "../Firebase"
 
 function Home() {
   //Global Variables
