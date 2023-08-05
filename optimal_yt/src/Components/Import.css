@@ -3,8 +3,24 @@
   width: auto;
   }
   
+#row img{
+  width: 35%;
+  height: 75%;
+  display: none;
+}
+
+#row img[src]{
+  width: 35%;
+  height: 75%;
+  display: block;
+}
+
+#row a{
+  padding-left: 4%;
+}
+
   .Home-header {
-    background-color: #282c34;
+    background-color: #222;
     min-height: 100vh;
     display: flex;
     flex-direction: column;

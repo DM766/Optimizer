@@ -1,16 +1,51 @@
 import './Import.css'
 import React from 'react'
+import {useState} from 'react'
 import { Col, Row, Container} from 'react-bootstrap';
 import { getDatabase, ref, get, child } from "firebase/database";
 import ReactDOM from 'react-dom';
-import app from "../Firebase"
+import {FixedSizeList as List} from 'react-window'
+
+const listref = React.createRef();
 
 export const Import = () => {
 
-    let value = ""
+  const SingleRow = ({ index, style }) => (
+    <div id='row' className={index % 2 ? 'ListItemOdd' : 'ListItemEven'}
+    style={{
+      ...style,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingLeft: '10px',
+      borderLeft: '4px solid #1a3d6d',
+      borderRight: '4px solid #1a3d6d',
+      color: '#fff',
+      fontWeight: 'bold',
+      background: index % 2 === 0 ? '#1a1a1a' : '#222'
+    }}
+    >
+      <img alt='' src={LocalThumbs[index]}></img>
+     <a href={"https://youtube.com/watch?v=" + LocalIDs[index]}>
+      {LocalTitles[index]}
+    </a>
+    </div>
+  );
+
+  let [LocalIDs, setLocalIDs] = useState([])
+  let [LocalThumbs, setLocalThumbs] = useState([]);
+  let [LocalTitles, setLocalTitles] = useState([]);
+  let [plTitle, setPlTitle] = useState('');
+  let [value, setValue] = useState('');
 
      function GetPlaylist(){
-      //Check if we have any input
+
+      setLocalIDs([])
+      setLocalThumbs([])
+      setLocalTitles([])
+      setPlTitle('')
+
+      listref.current.forceUpdate()
         const input = document.getElementById("input")
         if(input.value === ""){
             return
@@ -20,42 +55,36 @@ export const Import = () => {
 
           //Unmount all elements for fresh reset
           ReactDOM.unmountComponentAtNode(document.getElementById("error"))
-         
-          ReactDOM.unmountComponentAtNode(document.getElementById("1"))
-          ReactDOM.unmountComponentAtNode(document.getElementById("2"))
-          ReactDOM.unmountComponentAtNode(document.getElementById("3"))
-          ReactDOM.unmountComponentAtNode(document.getElementById("4"))
-          ReactDOM.unmountComponentAtNode(document.getElementById("5"))
-
-          ReactDOM.unmountComponentAtNode(document.getElementById("text1"))
-          ReactDOM.unmountComponentAtNode(document.getElementById("text2"))
-          ReactDOM.unmountComponentAtNode(document.getElementById("text3"))
-          ReactDOM.unmountComponentAtNode(document.getElementById("text4"))
-          ReactDOM.unmountComponentAtNode(document.getElementById("text5"))
 
           //Grab code from database
           const database = ref(getDatabase())
             get(child(database, `code/${value}`)).then((snapshot) => {
             //If it exists, save information in local arrays
             if (snapshot.exists()) {
-              const LocalIDs = []
-              const LocalThumbs = []
               for(let i = 0; i < snapshot.val().IDs.length; i++){
-                LocalIDs[i+1] = snapshot.val().IDs[i]
+                setLocalIDs(prevState => {
+                  const updatedArray = [...prevState];
+                  updatedArray[i] = snapshot.val().IDs[i];
+                  return updatedArray
+                })
               }
               for(let x = 0; x < snapshot.val().Thumbs.length; x++){
-                LocalThumbs[x+1] = snapshot.val().Thumbs[x]
+                setLocalThumbs(prevState => {
+                  const updatedArray = [...prevState];
+                  updatedArray[x] = snapshot.val().Thumbs[x];
+                  return updatedArray
+                })
               }
-
-              for(let y = 1; y < LocalIDs.length; y++){
-                //With all the information we got, create the according thumbnail and links to display to the user
-                let link = React.createElement("p", {}, `https://www.youtube.com/watch?v=${LocalIDs[y]}`)
-                let source = React.createElement("img", {src:LocalThumbs[y], },)
-                ReactDOM.render(source, document.getElementById(`${y}`))
-                ReactDOM.render(link, document.getElementById(`text${y}`))
-                
+              for(let x = 0; x < snapshot.val().Titles.length; x++){
+                setLocalTitles(prevState => {
+                  const updatedArray = [...prevState];
+                  updatedArray[x] = snapshot.val().Titles[x];
+                  return updatedArray
+                })
               }
+              setPlTitle(snapshot.val().Title);
               console.log("Complete!")
+              listref.current.forceUpdate()
             } else {
               //If the code doesn't exist, let the user know
               console.log("No data available");
@@ -82,61 +111,34 @@ export const Import = () => {
                     </Row>
                     <Row>
                         <Col id="inp">
-                        <input id="input" style={{maxWidth:'10%', }} onChange={handleChanged} placeholder='Code'></input>
+                        <input id="input" style={{maxWidth:'100%'}} onChange={handleChanged} placeholder='Code'></input>
                         <span>      </span>
-                        <button style={{}} onClick={GetPlaylist}>Enter</button>
+                        <button style={{maxWidth:'100%'}} onClick={GetPlaylist}>Enter</button>
                         </Col>
                     </Row>
                     <Row id="error" style={{marginTop:'2%'}}>
 
                     </Row>
                     </Container>
-                    <Container style={{marginTop:'5%'}}>
-
-                    <Row >
-                          <Col id="1" className="savedVideos">
-                          
+                    <Container style={{marginTop:'2%'}}>
+                        <Row>
+                          <Col className="d-flex justify-content-center">
+                            <h4 style={{color:'white'}}>{plTitle}</h4>
                           </Col>
-                        <Col id="text1" className="savedText">
-                          
-                        </Col>
-                          </Row>
-                          <Row>
-                          <Col id="2" className="savedVideos">
-                          
+                        </Row>
+                   
+                         <Row>
+                          <Col className="d-flex justify-content-center">
+                          <List ref={listref} className='' style={{borderTop: '4px solid #1a3d6d', borderBottom: '4px solid #1a3d6d', fontSize:'65%'}}
+              height={500}
+              itemCount={100}
+              itemSize={150}
+              width={450}
+            >
+              {SingleRow}
+            </List>
                           </Col>
-                        <Col id="text2" className="savedText">
-                          
-                        </Col>
-                        
-                          </Row>
-                          <Row>
-                          <Col id="3" className="savedVideos">
-                          
-                          </Col>
-                        <Col id="text3" className="savedText">
-                          
-                        </Col>
-                        
-                          </Row>
-                          <Row>
-                          <Col id="4" className="savedVideos">
-                          
-                          </Col>
-                        <Col id="text4" className="savedText">
-                          
-                        </Col>
-                        
-                          </Row>
-                          <Row>
-                          <Col id="5" className="savedVideos">
-                          
-                          </Col>
-                        <Col id="text5" className="savedText">
-                          
-                        </Col>
-                        
-                          </Row>
+                         </Row>
                 </Container>
             </div>
         </div>
